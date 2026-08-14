@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Connected — one step left</title>
+<style>
+  body { font-family: -apple-system, system-ui, sans-serif; max-width: 560px; margin: 0 auto;
+         padding: 56px 24px; line-height: 1.6; color: #f5f3ee; background: #0a0b10; text-align: center; }
+  h1 { font-family: Georgia, serif; font-size: 26px; }
+  p { color: #a7a5a0; font-size: 15px; }
+  code { display: block; margin: 24px 0 14px; padding: 18px 16px; background: #12141d;
+         border: 1px solid rgba(255,255,255,.1); border-radius: 14px; font-size: 15px;
+         word-break: break-all; color: #d9a45e; user-select: all; }
+  button { padding: 13px 26px; font-size: 15px; font-weight: 600; border: 0; border-radius: 12px;
+           background: #d9a45e; color: #fff; cursor: pointer; font-family: inherit; }
+  .err { color: #d05f56; }
+</style>
+</head>
+<body>
+<h1>Nearly there</h1>
+<div id="out"></div>
+<script>
+const p = new URLSearchParams(location.search);
+const code = p.get('code');
+const out = document.getElementById('out');
+if (code) {
+  out.innerHTML = '<p>WHOOP approved the connection. Copy this code and paste it to Claude:</p>' +
+    '<code id="c">' + code.replace(/[<>&]/g, '') + '</code>' +
+    '<button onclick="navigator.clipboard.writeText(document.getElementById(\'c\').textContent).then(()=>this.textContent=\'Copied\')">Copy code</button>';
+} else {
+  out.innerHTML = '<p class="err">No code in the URL — ' +
+    (p.get('error') ? 'WHOOP said: ' + p.get('error').replace(/[<>&]/g, '') : 'try the authorization link again') + '.</p>';
+}
+</script>
+</body>
+</html>
